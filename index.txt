@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PW Player - RangeXCoder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        
+        .rangexcoder-header {
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            padding: 15px;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+        
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .player-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+        }
+        
+        .player-header {
+            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .player-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .fullscreen-btn {
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .fullscreen-btn:hover {
+            background-color: #ff7043;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .player-container {
+            flex: 1;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+        }
+        
+        #player-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .info-section {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .info-section h2 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            color: #ff9800;
+        }
+        
+        .info-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .feature i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4caf50;
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        /* Fullscreen styles */
+        .fullscreen .player-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            margin: 0;
+            border-radius: 0;
+        }
+        
+        .fullscreen .player-container {
+            height: 100vh;
+            padding-bottom: 0;
+        }
+        
+        .fullscreen #player-frame {
+            height: 100vh;
+        }
+        
+        .fullscreen .rangexcoder-header,
+        .fullscreen header,
+        .fullscreen .info-section,
+        .fullscreen footer {
+            display: none;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .rangexcoder-header {
+                font-size: 1.8rem;
+                padding: 12px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="rangexcoder-header">RangeXCoder</div>
+    
+    <!-- <header>
+        <h1>PW Player</h1>
+        <div class="subtitle">Premium Educational Content in Full Screen</div>
+    </header> -->
+    
+    <!-- <div class="container">
+        <section class="player-section">
+            <div class="player-header">
+                <div class="player-title">Physics Wallah Player</div>
+                <button class="fullscreen-btn" id="fullscreen-toggle">
+                    <span>Full Screen</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V8M21 8V5C21 4.46957 20.7893 3.96086 20.4142 3.58579C20.0391 3.21071 19.5304 3 19 3H16M16 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V16M3 16V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div> -->
+            <div class="player-container">
+                <iframe id="player-frame" src="https://pwthor.site/pwplayer.html?encrypted=V68AX5pdQPdC%2ByaNobZV3%2BcVaCihW69v06bIwt%2BmtVlvVWhDVgWDXrj6hAjgwSW7WwEMvX4hVls2P3Mie5F4FFgpLa9SSFKXzXD1rZI7hfnpdg5vygwFJlbAf7YfK8SWYgiSJdIY5hhUdxGE87u%2BjhirofsBNBnIybdgzne38%2FYJX9q9WOppyzikAeUf8PvNj9PTXZAyH2Dk2uMD%2BRfgZgwI8YrddSNCnZHZwtL5sQpLuD%2F0msVK7YaZzLpEmCPwvxYCtN9sH3JG0iPvjfQ1ZDGc3upq%2BZBrmLWt4kiqQVId1WwEGj3BPcJnk7vesXG%2FTsIiHWEkIhtibM7y50tsNtjGb7VOwtlA4%2B7UsRiyXKg0WfsHZxr5AzpWRFx%2FWYVm9Y7tySgNLywhcrmpiiQZCSt2fq9l42bjweNHpOm1AQjRqXkkCslfK6C3CT5izgC5&iv=UWangfimAJSfG7Avqau9cA%3D%3D&poster=https%3A%2F%2Fstatic.pw.live%2F5eb393ee95fab7468a79d189%2FADMIN%2Fafa744e2-51db-4c8a-9399-3101ad82cdcb.png" allowfullscreen></iframe>
+            </div>
+        </section>
+        
+        <!-- <section class="info-section">
+            <h2>About PW Player</h2>
+            <p>Physics Wallah is India's leading online education platform, providing high-quality educational content for competitive exams like JEE, NEET, and various board exams.</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i>📚</i>
+                    <h3>Comprehensive Courses</h3>
+                    <p>Covering all major subjects with detailed explanations</p>
+                </div>
+                <div class="feature">
+                    <i>🎓</i>
+                    <h3>Expert Faculty</h3>
+                    <p>Learn from India's best educators and subject matter experts</p>
+                </div>
+                <div class="feature">
+                    <i>📱</i>
+                    <h3>Accessible Anywhere</h3>
+                    <p>Study on any device with our responsive platform</p>
+                </div>
+                <div class="feature">
+                    <i>⚡</i>
+                    <h3>High Performance</h3>
+                    <p>Smooth streaming and interactive learning experience</p>
+                </div>
+            </div>
+        </section> -->
+    </div>
+    
+    <footer>
+        <p>PW Player &copy; 2025 | Premium Educational Content</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullscreenToggle = document.getElementById('fullscreen-toggle');
+            const playerSection = document.querySelector('.player-section');
+            
+            // Function to update button text based on fullscreen state
+            function updateButtonText(isFullscreen) {
+                if (isFullscreen) {
+                    fullscreenToggle.innerHTML = '<span>Exit Full Screen</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 9L4 4M4 4V8M4 4H8M15 9L20 4M20 4V8M20 4H16M9 15L4 20M4 20H8M4 20V16M15 15L20 20M20 20V16M20 20H16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                } else {
+                    fullscreenToggle.innerHTML = '<span>Full Screen</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V8M21 8V5C21 4.46957 20.7893 3.96086 20.4142 3.58579C20.0391 3.21071 19.5304 3 19 3H16M16 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V16M3 16V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                }
+            }
+            
+            // Check initial state
+            updateButtonText(!!document.fullscreenElement);
+            
+            fullscreenToggle.addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                    // Enter fullscreen
+                    if (playerSection.requestFullscreen) {
+                        playerSection.requestFullscreen();
+                    } else if (playerSection.webkitRequestFullscreen) {
+                        playerSection.webkitRequestFullscreen();
+                    } else if (playerSection.msRequestFullscreen) {
+                        playerSection.msRequestFullscreen();
+                    }
+                } else {
+                    // Exit fullscreen
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }
+            });
+            
+            // Listen for fullscreen change events
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+            
+            function handleFullscreenChange() {
+                const isFullscreen = !!document.fullscreenElement;
+                document.body.classList.toggle('fullscreen', isFullscreen);
+                updateButtonText(isFullscreen);
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+ 
+</body>
+</html>
