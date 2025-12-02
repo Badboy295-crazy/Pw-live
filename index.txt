@@ -236,7 +236,7 @@
                 </button>
             </div> -->
             <div class="player-container">
-                <iframe id="player-frame" src="https://pwthor.site/pwplayer.html?encrypted=V68AX5pdQPdC%2ByaNobZV3%2BcVaCihW69v06bIwt%2BmtVlvVWhDVgWDXrj6hAjgwSW7WwEMvX4hVls2P3Mie5F4FFgpLa9SSFKXzXD1rZI7hfnpdg5vygwFJlbAf7YfK8SWYgiSJdIY5hhUdxGE87u%2BjhirofsBNBnIybdgzne38%2FYJX9q9WOppyzikAeUf8PvNj9PTXZAyH2Dk2uMD%2BRfgZgwI8YrddSNCnZHZwtL5sQpLuD%2F0msVK7YaZzLpEmCPwvxYCtN9sH3JG0iPvjfQ1ZDGc3upq%2BZBrmLWt4kiqQVId1WwEGj3BPcJnk7vesXG%2FTsIiHWEkIhtibM7y50tsNtjGb7VOwtlA4%2B7UsRiyXKg0WfsHZxr5AzpWRFx%2FWYVm9Y7tySgNLywhcrmpiiQZCSt2fq9l42bjweNHpOm1AQjRqXkkCslfK6C3CT5izgC5&iv=UWangfimAJSfG7Avqau9cA%3D%3D&poster=https%3A%2F%2Fstatic.pw.live%2F5eb393ee95fab7468a79d189%2FADMIN%2Fafa744e2-51db-4c8a-9399-3101ad82cdcb.png" allowfullscreen></iframe>
+                <iframe id="player-frame" src="https://youtube.com/live/CTFuXmQsVdA?si=MhKoYBhvP5Gr4S2W" allowfullscreen></iframe>
             </div>
         </section>
         
@@ -328,4 +328,5 @@
     <script src="script.js"></script>
  
 </body>
+
 </html>
